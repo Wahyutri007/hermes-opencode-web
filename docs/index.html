@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk | Hermes Build Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f6fb;
+  --panel: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --line: #d9dfeb;
+  --accent: #2563eb;
+  --accent-text: #ffffff;
+  --danger: #dc2626;
+  --ok: #16a34a;
+  --brand-bg: #0f172a;
+  --brand-text: #e2e8f0;
+  --warn: #fbbf24;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1020;
+    --panel: #121a2e;
+    --text: #e8edf7;
+    --muted: #94a3b8;
+    --line: #26314d;
+    --accent: #3b82f6;
+    --brand-bg: #070b17;
+  }
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+h1, h2, .logo { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
+
+.layout { display: grid; grid-template-columns: 1fr 1fr; min-height: 100%; }
+
+/* Sisi kiri */
+.brand {
+  background: var(--brand-bg);
+  color: var(--brand-text);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.logo { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: .01em; }
+.brand-body h2 { font-size: 2rem; line-height: 1.2; margin: 0 0 28px; max-width: 18ch; }
+#steps { list-style: none; margin: 0; padding: 0; max-width: 380px; }
+#steps li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.status { color: var(--warn); font-weight: 500; }
+.status.done { color: #4ade80; }
+
+/* Sisi kanan */
+.panel { display: flex; align-items: center; justify-content: center; padding: 32px 20px; }
+form {
+  width: 100%;
+  max-width: 400px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 32px;
+}
+form h1 { margin: 0 0 6px; font-size: 1.8rem; }
+.sub { margin: 0 0 24px; color: var(--muted); }
+
+.field { margin-bottom: 18px; }
+label { display: block; font-weight: 500; margin-bottom: 6px; font-size: .95rem; }
+input[type="email"], input[type="password"], input[type="text"] {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 14px;
+  font: inherit;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+input:focus-visible, button:focus-visible, a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 2px;
+}
+input.invalid { border-color: var(--danger); }
+.error { color: var(--danger); font-size: .85rem; min-height: 1.1em; margin: 6px 0 0; }
+
+.pw { position: relative; }
+.pw input { padding-right: 96px; }
+#togglePw {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  min-height: 34px;
+  padding: 0 12px;
+  background: transparent;
+  color: var(--accent);
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: .9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  font-size: .9rem;
+}
+.check { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 400; }
+.check input { width: 18px; height: 18px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+#loginButton {
+  width: 100%;
+  min-height: 48px;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+}
+#loginButton:disabled { opacity: .6; cursor: wait; }
+.formMsg { min-height: 1.2em; margin: 14px 0 0; text-align: center; font-size: .9rem; }
+.formMsg.ok { color: var(--ok); }
+.formMsg.bad { color: var(--danger); }
+.alt { text-align: center; margin: 12px 0 0; color: var(--muted); font-size: .9rem; }
+
+/* Ponsel */
+@media (max-width: 720px) {
+  .layout { grid-template-columns: 1fr; }
+  .brand { padding: 24px 20px; gap: 20px; }
+  .brand-body h2 { font-size: 1.4rem; margin-bottom: 16px; }
+  form { padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="brand">
+    <p class="logo">Hermes Build Lab</p>
+    <div class="brand-body">
+      <h2>Masuk untuk melanjutkan proyekmu.</h2>
+      <ol id="steps" aria-live="polite">
+        <li data-step>Memeriksa akun <span class="status">Menunggu</span></li>
+        <li data-step>Membuka sesi <span class="status">Menunggu</span></li>
+        <li data-step>Menyiapkan dashboard <span class="status">Menunggu</span></li>
+      </ol>
+    </div>
+  </aside>
+
+  <main class="panel">
+    <form id="loginForm" novalidate>
+      <h1>Masuk</h1>
+      <p class="sub">Gunakan email dan kata sandi akunmu.</p>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+        <p class="error" id="emailError" role="alert"></p>
+      </div>
+
+      <div class="field">
+        <label for="password">Kata sandi</label>
+        <div class="pw">
+          <input id="password" name="password" type="password" autocomplete="current-password" minlength="6" required>
+          <button type="button" id="togglePw" aria-label="Tampilkan kata sandi" aria-pressed="false">Tampilkan</button>
+        </div>
+        <p class="error" id="passwordError" role="alert"></p>
+      </div>
+
+      <div class="row">
+        <label class="check"><input type="checkbox" name="remember"> Ingat saya</label>
+        <a href="#">Lupa kata sandi?</a>
+      </div>
+
+      <button type="submit" id="loginButton">Masuk</button>
+      <p class="formMsg" id="formMsg" role="status"></p>
+      <p class="alt">Belum punya akun? <a href="#">Daftar</a></p>
+    </form>
+  </main>
+</div>
+
+<script>
+const form = document.querySelector("#loginForm");
+const email = document.querySelector("#email");
+const password = document.querySelector("#password");
+const emailError = document.querySelector("#emailError");
+const passwordError = document.querySelector("#passwordError");
+const formMsg = document.querySelector("#formMsg");
+const loginButton = document.querySelector("#loginButton");
+const togglePw = document.querySelector("#togglePw");
+const steps = [...document.querySelectorAll("[data-step]")];
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function resetSteps() {
+  steps.forEach((item) => {
+    const s = item.querySelector(".status");
+    s.textContent = "Menunggu";
+    s.classList.remove("done");
+  });
+}
+
+function validate() {
+  let ok = true;
+  emailError.textContent = "";
+  passwordError.textContent = "";
+  email.classList.remove("invalid");
+  password.classList.remove("invalid");
+
+  if (!email.value.trim()) {
+    emailError.textContent = "Email wajib diisi.";
+    email.classList.add("invalid");
+    ok = false;
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
+    emailError.textContent = "Format email tidak valid.";
+    email.classList.add("invalid");
+    ok = false;
+  }
+
+  if (!password.value) {
+    passwordError.textContent = "Kata sandi wajib diisi.";
+    password.classList.add("invalid");
+    ok = false;
+  } else if (password.value.length < 6) {
+    passwordError.textContent = "Kata sandi minimal 6 karakter.";
+    password.classList.add("invalid");
+    ok = false;
+  }
+  return ok;
+}
+
+togglePw.addEventListener("click", () => {
+  const show = password.type === "password";
+  password.type = show ? "text" : "password";
+  togglePw.textContent = show ? "Sembunyikan" : "Tampilkan";
+  togglePw.setAttribute("aria-pressed", String(show));
+  togglePw.setAttribute("aria-label", show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi");
+});
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  formMsg.textContent = "";
+  formMsg.className = "formMsg";
+  resetSteps();
+
+  if (!validate()) {
+    formMsg.textContent = "Periksa kembali isian yang ditandai.";
+    formMsg.classList.add("bad");
+    return;
+  }
+
+  loginButton.disabled = true;
+  loginButton.textContent = "Memproses…";
+
+  // Simulasi proses masuk (tanpa server)
+  for (const item of steps) {
+    const s = item.querySelector(".status");
+    s.textContent = "Diproses";
+    await wait(700);
+    s.textContent = "Selesai";
+    s.classList.add("done");
+  }
+
+  formMsg.textContent = "Berhasil masuk (simulasi).";
+  formMsg.classList.add("ok");
+  loginButton.disabled = false;
+  loginButton.textContent = "Masuk";
+});
+</script>
+</body>
+</html>
